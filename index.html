@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- 폰트어썸 -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <title>Hello, world!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+        *{
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        thead{
+            background-color: ivory;
+            height: 32px;
+        }
+        th{
+            border: 1px solid lightgray;
+        }
+        tbody{
+            background-color: white;
+        }
+        p{
+            padding-top: 10px;
+        }
+        .container{
+            height: auto;
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+            max-width: 2000px;
+        }
+        .container > div {
+            background-color: red;
+            height: 980px;
+            position: relative;
+        }
+        table>thead{
+            vertical-align: middle !important;
+        }
+        table{
+            font-size: 11px;
+            width: 90% !important;
+            margin: auto;
+            max-width: 800px;
+            border-radius: 10px;
+            overflow: hidden;
+            vertical-align: middle !important;
+        }
+        .today_date{
+            margin-top: 80px;
+            color: lightcyan;
+        }
+        h1{
+            padding-bottom: 20px;
+            color: lightgoldenrodyellow;
+        }
+
+        .input_date{
+            height: 38px;
+            padding-bottom: 5px;
+            padding-left: 9px;
+            padding-right: 3px;
+            border-radius: 7px;
+            width: 100px;
+        }
+        .date_box{
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        .end_ment{
+            font-size: 10px;
+            color: aliceblue;
+            text-align: center;
+        }
+        .back-ground{
+            background-image: url('back.jpg');
+        }
+        .logo_img{
+            width: 110px;
+            height: 50px;
+            position: absolute;
+            left: 50px;
+            top: 36px;
+        }
+        .logo_back{
+            width: 200px;
+            height: 124px;
+        }
+        .logo_div{
+            position: relative;
+            width: 200px;
+            height: 120px;
+            margin: auto;
+            top: 60px;
+        }
+        .carousel{
+            width: 90%;
+            max-width: 430px;
+            margin: 20px auto 0 auto;
+        }
+        .carousel-indicators {
+            bottom : -20px;
+        }
+        .form-control{
+            display: inline;
+        }
+        .show_btn{
+            height: 37px;
+            margin-bottom: 6px;
+        }
+        footer{
+            color: white;
+            background-color: black;
+            font-size: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        footer>p{
+            padding-top: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            text-align: center;
+        }
+        @media screen and (max-width: 412px) {
+            .container > div {
+                height: 1080px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="width:100%; height: 30px; background-color: lightgoldenrodyellow;"></div>
+        <div class="back-ground text-center">
+            <div class="logo_div">
+                <img src="logo_back.png" alt="로고 배경" class="logo_back">
+                <img src="logo.png" alt="로고" class="logo_img" onclick=window.open('http://www.cgv.co.kr/')>
+            </div>
+            <h5 id="today_date" class="text-center today_date"></h5>
+            <h1 class="text-center">Best 영화 순위</h1>
+            <div class="date_box">
+                <input class="input_date form-control" name="date_picker" id="input_date" type="text">
+                <button id="show_btn" type="button" class="btn btn-primary show_btn">검색</button>
+            </div>
+            <div>
+                <table id="example" class="table table-bordered table-hover" >
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">순위</th>
+                            <th scope="col" class="text-center">작품명</th>
+                            <th scope="col" class="text-center">누적 관객 수</th>
+                            <th scope="col" class="text-center">개봉일</th>
+                            <th scope="col" class="text-center">예매하기</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="show_area" class="text-center"></div>
+
+            <p class="end_ment">* 어제 자 기준이 최신 정보입니다.</p>
+
+            <!--광고 배너-->
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="banner_1.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="banner_2.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="banner_3.png" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <footer>
+            <p>(04377)서울특별시 용산구 한강대로 23길 55, 아이파크몰 6층(한강로동)</p>
+            <p>대표이사 : 허민회 | 사업자등록번호 : 104-81-45690 <br> | 통신판매업신고번호 : 2017-서울용산-0662 | 사업자정보확인</p>
+            <p>호스팅사업자 : CJ올리브네트웍스 | 개인정보보호 책임자 : 심준범 <br> 대표이메일 : cjcgvmaster@cj.net | CGV고객센터 : 1544-1122</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <!--날짜 스크립트-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        // 오늘 날짜
+        function get_today() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate();
+
+            function day() {
+                let week = ['일', '월', '화', '수', '목', '금', '토'];
+                let today = new Date().getDay();
+                let today2 = week[today];
+
+                return today2;
+            }
+
+            $("#today_date").html(year + "/" + month + "/" + date + "(" + day() + ")");
+        }
+        get_today();
+
+        //데이터 테이블 작성
+        $(document).ready( function () {
+
+            //날짜 우리말로 번역
+            $.datepicker.setDefaults({
+                dateFormat: 'yy-mm-dd',
+                prevText: '이전 달',
+                nextText: '다음 달',
+                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                showMonthAfterYear: true,
+                yearSuffix: '년',
+            });
+-
+            //날짜 값 찍기
+            $(function () {
+                $("#input_date").datepicker({
+                    maxDate : "-1D" // 최대 날짜
+                });
+                $("#input_date").datepicker('setDate', '-1D'); // 디폴트값 변형
+            });
+
+            //첫 로딩 때 어제 자 데이터 찍기
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let date = today.getDate() - 1;
+            let date_time = year + '-' + month + '-' + date;
+            date_time = date_time.replace(/\-/g,'');
+            let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt="+date_time;
+
+            console.log(123);
+            $.ajax({
+                type: "GET",
+                url: url,
+                success:function(data){
+                    $("#show_area").empty();
+                    $("#tbody").empty();
+
+                    for (let i = 0; i < 10; i++) {
+
+                        let view = data["boxOfficeResult"]["dailyBoxOfficeList"][i]["audiAcc"];
+                        view = view.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                        $("#tbody").append(
+                            '<tr>'+
+                            '<th scope="row">'+ data["boxOfficeResult"]["dailyBoxOfficeList"][i]["rank"]  + '</th>' +
+                            '<td>'+data["boxOfficeResult"]["dailyBoxOfficeList"][i]["movieNm"] +'</td>' +
+                            '<td>'+view + '</td>' +
+                            '<td>'+data["boxOfficeResult"]["dailyBoxOfficeList"][i]["openDt"] + '</td>' +
+                            '<td>'+'<i class="fas fa-ticket-alt" onclick=window.open("http://www.cgv.co.kr/ticket/")>' + '</i>' + '</td>' +
+                            '</tr>'
+                        )
+                    }
+                },
+                error : function(req) {
+                    alert('통신 실패.')
+                }
+            });
+        });
+
+        $(function(){
+            $('#show_btn').click(function(){
+                // 데이터 값 표시
+                $('#show_area').html('....loading...');
+
+                //날짜 값
+                let date = $("#input_date").val();
+                date = date.replace(/\-/g,'');
+                console.log(date);
+                let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt="+date;
+                console.log(url);
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success:function(data){
+                        $("#show_area").empty();
+                        $("#tbody").empty();
+
+                        for (let i = 0; i < 10; i++) {
+
+                            let view = data["boxOfficeResult"]["dailyBoxOfficeList"][i]["audiAcc"];
+                            view = view.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                            $("#tbody").append(
+                                '<tr>'+
+                                '<th scope="row">'+ data["boxOfficeResult"]["dailyBoxOfficeList"][i]["rank"]  + '</th>' +
+                                '<td>'+data["boxOfficeResult"]["dailyBoxOfficeList"][i]["movieNm"] +'</td>' +
+                                '<td>'+view + '</td>' +
+                                '<td>'+data["boxOfficeResult"]["dailyBoxOfficeList"][i]["openDt"] + '</td>' +
+                                '<td>'+'<i class="fas fa-ticket-alt" onclick=window.open("http://www.cgv.co.kr/ticket/")>' + '</i>' + '</td>' +
+                                '</tr>'
+                            )
+                        }
+                    },
+                    error : function(req) {
+                        alert('통신 실패.')
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+
+
+</body>
+</html>
